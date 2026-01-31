@@ -12,14 +12,12 @@ class Application
     public const VERSION = '1.0.0';
     public const NAME = 'Daemon Manager';
 
-    private ArgumentParser $parser;
-    private EnvLoader $envLoader;
     private ?Config $config = null;
 
-    public function __construct()
-    {
-        $this->parser = new ArgumentParser();
-        $this->envLoader = new EnvLoader();
+    public function __construct(
+        private ArgumentParser $parser = new ArgumentParser(),
+        private EnvLoader $envLoader = new EnvLoader()
+    ) {
     }
 
     public function run(array $argv): int
@@ -42,7 +40,7 @@ class Application
         }
 
         if ($this->parser->getScript() === null) {
-            $this->printError('Error: Script path is required');
+            $this->printError('Error: `script` path is required. Run \'dm --help\' for usage.');
             $this->printUsage();
             return 1;
         }
@@ -97,36 +95,46 @@ class Application
 
     private function printHelp(): void
     {
+        $commandList = new CommandList();
+
         $this->printVersion();
         echo "\n";
+
+        // Usage
         echo "Usage:\n";
-        echo "  dm <script> [options]\n";
-        echo "\n";
+        echo "  dm <script> [options]\n\n";
+
+        // Arguments
         echo "Arguments:\n";
-        echo "  script                    Path to PHP script to execute\n";
+        foreach ($commandList->arguments() as $arg) {
+            echo sprintf("  %-26s %s\n", "<{$arg['name']}>", $arg['desc']);
+        }
         echo "\n";
+
+        // Options
         echo "Options:\n";
-        echo "  -i, --interval=SECONDS    Sleep interval between runs [default: 60]\n";
-        echo "  -m, --max-memory=SIZE     Max memory before restart [default: 128M]\n";
-        echo "  -t, --max-runtime=SECONDS Max runtime before restart [default: 3600]\n";
-        echo "  -n, --max-iterations=N    Max iterations before restart [default: unlimited]\n";
-        echo "  -l, --lock-file=PATH      Lock file path [default: auto]\n";
-        echo "      --log-file=PATH       Log file path [default: stdout]\n";
-        echo "      --log-level=LEVEL     Log level: debug, info, warning, error, quiet [default: info]\n";
-        echo "  -e, --env=PATH            Path to .env file [default: auto-detect]\n";
-        echo "  -v, --verbose             Verbose output\n";
-        echo "  -q, --quiet               Suppress output\n";
-        echo "  -h, --help                Display this help\n";
-        echo "  -V, --version             Display version\n";
+        foreach ($commandList->options() as $opt) {
+            $short = $opt['short'] ? "-{$opt['short']}, " : '    ';
+            $long = "--{$opt['long']}";
+
+            if ($opt['type'] !== 'bool') {
+                $long .= '=' . strtoupper($opt['type'] === 'int' ? 'N' : $opt['long']);
+            }
+
+            echo sprintf("  %s%-22s %s\n", $short, $long, $opt['desc']);
+        }
         echo "\n";
+
+        // Examples
         echo "Examples:\n";
-        echo "  dm /var/www/html/wp-cron.php\n";
-        echo "  dm /var/www/html/wp-cron.php --interval=10 --max-memory=256M\n";
-        echo "  dm /var/www/html/artisan schedule:run --env=/var/www/.env\n";
+        foreach ($commandList->examples() as $example) {
+            echo "  {$example}\n";
+        }
         echo "\n";
+
+        // Environment Variables
         echo "Environment Variables (.env):\n";
-        echo "  DM_INTERVAL, DM_MAX_MEMORY, DM_MAX_RUNTIME, DM_MAX_ITERATIONS\n";
-        echo "  DM_LOCK_FILE, DM_LOG_FILE, DM_LOG_LEVEL\n";
+        echo '  ' . implode(', ', $commandList->envVariables()) . "\n";
     }
 
     private function printVersion(): void

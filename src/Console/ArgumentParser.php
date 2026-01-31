@@ -27,7 +27,6 @@ class ArgumentParser
 
     public function parse(array $argv): self
     {
-        // Remove script name (dm itself)
         array_shift($argv);
 
         $this->script = null;
