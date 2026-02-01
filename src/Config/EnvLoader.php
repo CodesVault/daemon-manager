@@ -16,7 +16,7 @@ class EnvLoader
         'DM_LOCK_FILE'      => 'lockFile',
         'DM_LOG_FILE'       => 'logFile',
         'DM_LOG_LEVEL'      => 'logLevel',
-        'DM_LOG_TIMEZONE'   => 'timezone',
+        'DM_LOG_TIMEZONE'   => 'logTimezone',
     ];
 
     public function load(?string $envPath = null, ?string $scriptPath = null): array
