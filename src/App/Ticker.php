@@ -8,7 +8,7 @@ use DaemonManager\Config\Config;
 
 class Ticker
 {
-    private int $iterations = 0;
+    private int $cycles = 0;
     private int $startTime;
     private bool $shouldStop = false;
     private Logger $logger;
@@ -58,14 +58,14 @@ class Ticker
     {
         $this->log(
             Logger::LEVEL_INFO,
-            "Daemon Manager stopped after {$this->iterations} iterations"
+            "Daemon Manager stopped after {$this->cycles} cycles"
         );
     }
 
     private function tick(): void
     {
-        $this->iterations++;
-        $this->log(Logger::LEVEL_INFO, "Iteration: #{$this->iterations}");
+        $this->cycles++;
+        $this->log(Logger::LEVEL_INFO, "Cycle #{$this->cycles}");
 
         $exitCode = $this->executeScript();
 
@@ -77,17 +77,32 @@ class Ticker
     private function executeScript(): int
     {
         $script = $this->config->getScript();
-        $command = 'php ' . escapeshellarg($script) . ' 2>&1';
+        $command = 'php ' . escapeshellarg($script);
 
-        $output = [];
-        $exitCode = 0;
+        $descriptors = [
+            0 => ['pipe', 'r'], // stdin
+            1 => ['pipe', 'w'], // stdout
+            2 => ['pipe', 'w'], // stderr
+        ];
 
-        exec($command, $output, $exitCode);
+        $process = proc_open($command, $descriptors, $pipes);
 
-        if (!empty($output)) {
-            $outputStr = implode("\n", $output);
-            $this->log(Logger::LEVEL_DEBUG, "Output: {$outputStr}");
+        if (! is_resource($process)) {
+            $this->log(Logger::LEVEL_ERROR, 'Failed to execute script process');
+            return 1;
         }
+
+        fclose($pipes[0]);
+
+        $stdout = stream_get_contents($pipes[1]);
+        $stderr = stream_get_contents($pipes[2]);
+
+        fclose($pipes[1]);
+        fclose($pipes[2]);
+
+        $exitCode = proc_close($process);
+
+        $this->logger->logOutput($stdout, $stderr);
 
         return $exitCode;
     }
@@ -109,8 +124,8 @@ class Ticker
             return true;
         }
 
-        if ($this->isIterationsExceeded()) {
-            $this->log(Logger::LEVEL_INFO, 'Iteration limit exceeded, stopping');
+        if ($this->isCyclesExceeded()) {
+            $this->log(Logger::LEVEL_INFO, 'Cycle limit reached, stopping');
             return true;
         }
 
@@ -138,7 +153,7 @@ class Ticker
         return $elapsed >= $maxRuntime;
     }
 
-    private function isIterationsExceeded(): bool
+    private function isCyclesExceeded(): bool
     {
         $maxIterations = $this->config->getMaxIterations();
 
@@ -146,7 +161,7 @@ class Ticker
             return false;
         }
 
-        return $this->iterations >= $maxIterations;
+        return $this->cycles >= $maxIterations;
     }
 
     private function sleep(): void
@@ -190,9 +205,9 @@ class Ticker
         $this->shouldStop = true;
     }
 
-    public function getIterations(): int
+    public function getCycles(): int
     {
-        return $this->iterations;
+        return $this->cycles;
     }
 
     public function getElapsedTime(): int

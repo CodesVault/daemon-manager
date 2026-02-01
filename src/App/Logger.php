@@ -115,4 +115,84 @@ class Logger
             self::LEVEL_QUIET,
         ];
     }
+
+    public function logOutput(string $stdout, string $stderr): void
+    {
+        // Parse stderr for errors and warnings (PHP prefixed)
+        if ($stderr !== '') {
+            $this->logStdErr($stderr);
+        }
+
+        // stdout may contain normal output mixed with display_errors output
+        // Extract only non-error lines for debug
+        if ($stdout !== '') {
+            $debugOutput = $this->extractDebugOutput($stdout);
+            if ($debugOutput !== '') {
+                $this->debug('Output: ' . $debugOutput);
+            }
+        }
+    }
+
+    private function logStdErr(string $stderr): void
+    {
+        $lines = explode("\n", $stderr);
+        $errorLines = [];
+        $warningLines = [];
+        $currentBlock = null;
+
+        foreach ($lines as $line) {
+            if (trim($line) === '') {
+                continue;
+            }
+
+            if (preg_match('/^PHP (Fatal error|Parse error):/', $line)) {
+                $currentBlock = 'error';
+                $errorLines[] = trim($line);
+            } elseif (preg_match('/^PHP (Warning|Notice|Deprecated):/', $line)) {
+                $currentBlock = 'warning';
+                $warningLines[] = trim($line);
+            } elseif ($this->isStackTrace($line) && $currentBlock === 'error') {
+                $errorLines[] = trim($line);
+            }
+        }
+
+        if (! empty($errorLines)) {
+            $this->error('Output: ' . implode(' | ', $errorLines));
+        }
+
+        if (! empty($warningLines)) {
+            $this->warning('Output: ' . implode(' | ', $warningLines));
+        }
+    }
+
+    private function extractDebugOutput(string $stdout): string
+    {
+        $lines = explode("\n", $stdout);
+        $debugLines = [];
+
+        foreach ($lines as $line) {
+            if (trim($line) === '') {
+                continue;
+            }
+
+            // Skip error/warning lines
+            if (preg_match('/^(Fatal error|Parse error|Warning|Notice|Deprecated):/', $line)) {
+                continue;
+            }
+
+            // Skip stack trace lines
+            if ($this->isStackTrace($line)) {
+                continue;
+            }
+
+            $debugLines[] = trim($line);
+        }
+
+        return implode(' ', $debugLines);
+    }
+
+    private function isStackTrace(string $line): bool
+    {
+        return (bool) preg_match('/^\s*(Stack trace:|#\d+|thrown in)/', $line);
+    }
 }

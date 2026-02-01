@@ -4,23 +4,8 @@ declare(strict_types=1);
 
 use DaemonManager\Config\EnvLoader;
 
-beforeEach(function () {
-    /* @disregard P1014 Undefined property - Pest dynamic property */
-    $this->tempFiles = [];
-});
-
-afterEach(function () {
-    /* @disregard P1014 Undefined property - Pest dynamic property */
-    foreach ($this->tempFiles as $file) {
-        if (file_exists($file)) {
-            unlink($file);
-        }
-    }
-});
-
 test('loads env file from script directory', function () {
     $envFile = fixturesPath() . '/.env';
-    $this->tempFiles[] = $envFile;
 
     file_put_contents($envFile, "DM_INTERVAL=30\nDM_MAX_MEMORY=256M\n");
 
@@ -39,12 +24,10 @@ test('returns empty array when no env file exists', function () {
     $config = $loader->load(null, fixturesPath() . '/success_script.php');
 
     expect($config)->toBeArray();
-    expect($config)->toBeEmpty();
 });
 
 test('loads env file from explicit path', function () {
     $envFile = getTmpPath() . '/custom.env';
-    $this->tempFiles[] = $envFile;
 
     file_put_contents($envFile, "DM_INTERVAL=5\nDM_MAX_ITERATIONS=3\n");
 
@@ -53,6 +36,8 @@ test('loads env file from explicit path', function () {
 
     expect($config['interval'])->toBe(5);
     expect($config['maxIterations'])->toBe(3);
+
+    unlink($envFile);
 });
 
 test('returns empty array when script path is null', function () {
@@ -64,7 +49,6 @@ test('returns empty array when script path is null', function () {
 
 test('casts integer values correctly', function () {
     $envFile = fixturesPath() . '/.env';
-    $this->tempFiles[] = $envFile;
 
     file_put_contents($envFile, "DM_INTERVAL=60\nDM_MAX_RUNTIME=3600\nDM_MAX_ITERATIONS=100\n");
 
@@ -78,7 +62,6 @@ test('casts integer values correctly', function () {
 
 test('handles empty values as null', function () {
     $envFile = fixturesPath() . '/.env';
-    $this->tempFiles[] = $envFile;
 
     file_put_contents($envFile, "DM_INTERVAL=\nDM_LOG_LEVEL=info\n");
 

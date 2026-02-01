@@ -32,7 +32,7 @@ test('executes script successfully', function () {
     $exitCode = $ticker->run();
 
     expect($exitCode)->toBe(0);
-    expect($ticker->getIterations())->toBe(1);
+    expect($ticker->getCycles())->toBe(1);
 });
 
 test('stops after max iterations', function () {
@@ -56,7 +56,7 @@ test('stops after max iterations', function () {
     putenv('DM_COUNTER_FILE');
 
     expect($exitCode)->toBe(0);
-    expect($ticker->getIterations())->toBe(3);
+    expect($ticker->getCycles())->toBe(3);
     expect(file_get_contents($counterFile))->toBe('3');
 });
 
@@ -72,7 +72,7 @@ test('continues after script failure', function () {
     $exitCode = $ticker->run();
 
     expect($exitCode)->toBe(0);
-    expect($ticker->getIterations())->toBe(2);
+    expect($ticker->getCycles())->toBe(2);
 });
 
 test('stops after max runtime', function () {
@@ -120,7 +120,7 @@ test('can be stopped', function () {
     $exitCode = $ticker->run();
 
     expect($exitCode)->toBe(0);
-    expect($ticker->getIterations())->toBe(0);
+    expect($ticker->getCycles())->toBe(0);
 });
 
 test('with custom logger to file', function () {
