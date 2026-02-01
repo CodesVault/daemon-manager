@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace DaemonManager\Runner;
+namespace DaemonManager\App;
 
+use DaemonManager\App\Logger;
 use DaemonManager\Config\Config;
-use DaemonManager\Log\Logger;
 
 class Ticker
 {

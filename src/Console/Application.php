@@ -6,8 +6,8 @@ namespace DaemonManager\Console;
 
 use DaemonManager\Config\Config;
 use DaemonManager\Config\EnvLoader;
-use DaemonManager\Log\Logger;
-use DaemonManager\Runner\Ticker;
+use DaemonManager\App\Logger;
+use DaemonManager\App\Ticker;
 
 class Application
 {
@@ -73,7 +73,7 @@ class Application
             $this->printConfig();
         }
 
-        // Start the ticker
+        // Start the process
         return $this->startTicker();
     }
 

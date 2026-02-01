@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use DaemonManager\Log\Logger;
+use DaemonManager\App\Logger;
 
 beforeEach(function () {
     /* @disregard P1014 Undefined property - Pest dynamic property */

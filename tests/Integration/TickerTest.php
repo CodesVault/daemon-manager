@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
+use DaemonManager\App\Logger;
 use DaemonManager\Config\Config;
-use DaemonManager\Log\Logger;
-use DaemonManager\Runner\Ticker;
+use DaemonManager\App\Ticker;
 
 beforeEach(function () {
     /* @disregard P1014 Undefined property - Pest dynamic property */
