@@ -127,15 +127,32 @@ class Application
 
         // Options
         echo "Options:\n";
+
+        // Build option strings first to calculate max length
+        $optionLines = [];
         foreach ($commandList->options() as $opt) {
-            $short = $opt['short'] ? "-{$opt['short']} " : '    ';
+            $short = $opt['short'] ? "-{$opt['short']}" : '  ';
             $long = "--{$opt['long']}";
 
             if ($opt['type'] !== 'bool') {
                 $long .= ' <' . strtoupper($opt['type']) . '>';
             }
 
-            echo sprintf("  %s%-22s %s\n", $short, $long, $opt['desc']);
+            $optionLines[] = [
+                'short' => $short,
+                'long'  => $long,
+                'desc'  => $opt['desc'],
+            ];
+        }
+
+        // Find max length for alignment
+        $maxShortLen = max(array_map(fn ($o) => strlen($o['short']), $optionLines));
+        $maxLongLen = max(array_map(fn ($o) => strlen($o['long']), $optionLines));
+
+        foreach ($optionLines as $line) {
+            $shortPadded = str_pad($line['short'], $maxShortLen);
+            $longPadded = str_pad($line['long'], $maxLongLen);
+            echo "  {$shortPadded}  {$longPadded}   {$line['desc']}\n";
         }
         echo "\n";
 
