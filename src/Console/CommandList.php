@@ -10,9 +10,9 @@ class CommandList
     {
         return [
             [
-                'name' => 'script',
+                'name' => 'script|command',
                 'type' => 'string',
-                'desc' => 'Path to PHP script to execute',
+                'desc' => 'Path to PHP script (.php) OR CLI command (quoted string)',
             ],
         ];
     }
@@ -101,6 +101,8 @@ class CommandList
             'dm /var/www/html/wp-cron.php',
             'dm /var/www/html/wp-cron.php --interval 10 --max-memory 256M',
             'dm /var/www/html/artisan schedule:run --env /var/www/.env',
+            "dm 'curl -s https://example.com/webhook' -i 60",
+            "dm 'echo hello' --max-cycles 5",
         ];
     }
 

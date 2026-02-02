@@ -180,3 +180,42 @@ test('logs php errors to log file', function () {
     $content = file_get_contents($logFile);
     expect($content)->toContain('Undefined variable');
 });
+
+test('executes cli command successfully', function () {
+    $logFile = getTmpPath() . '/cli-command.log';
+    $this->tempFiles[] = $logFile;
+
+    $logger = new Logger(Logger::LEVEL_DEBUG, $logFile);
+
+    $config = new Config([
+        'script'       => 'echo "hello from cli"',
+        'isCliCommand' => true,
+        'interval'     => 1,
+        'maxCycles'    => 1,
+    ]);
+
+    $ticker = new Ticker($config, $logger);
+    $exitCode = $ticker->run();
+
+    expect($exitCode)->toBe(0);
+    expect($ticker->getCycles())->toBe(1);
+
+    $content = file_get_contents($logFile);
+    expect($content)->toContain('hello from cli');
+});
+
+test('cli command runs multiple cycles', function () {
+    $config = new Config([
+        'script'       => 'echo "cycle"',
+        'isCliCommand' => true,
+        'interval'     => 1,
+        'maxCycles'    => 3,
+        'logLevel'     => 'quiet',
+    ]);
+
+    $ticker = new Ticker($config);
+    $exitCode = $ticker->run();
+
+    expect($exitCode)->toBe(0);
+    expect($ticker->getCycles())->toBe(3);
+});

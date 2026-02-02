@@ -53,7 +53,7 @@ class Application
         }
 
         if ($this->parser->getScript() === null) {
-            $this->printError('Error: `script` path is required. Run \'dm --help\' for usage.');
+            $this->printError('Error: script path or command is required. Run \'dm --help\' for usage.');
             $this->printUsage();
             return 1;
         }
@@ -116,7 +116,8 @@ class Application
 
         // Usage
         echo "Usage:\n";
-        echo "  dm <script> [options]\n\n";
+        echo "  dm <script.php> [options]\n";
+        echo "  dm '<command>'  [options]\n\n";
 
         // Arguments
         echo "Arguments:\n";
@@ -175,7 +176,8 @@ class Application
 
     private function printUsage(): void
     {
-        echo "Usage: dm <script> [options]\n";
+        echo "Usage:\n  dm <script.php> [options]\n";
+        echo "  dm '<command>'  [options]\n\n";
         echo "Run 'dm --help' for more information.\n";
     }
 

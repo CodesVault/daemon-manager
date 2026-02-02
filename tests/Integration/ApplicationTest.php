@@ -118,3 +118,65 @@ test('runs ticker with max cycles', function () {
 
     expect($exitCode)->toBe(0);
 });
+
+test('runs cli command instead of php script', function () {
+    $app = new Application();
+
+    ob_start();
+    $exitCode = $app->run([
+        'dm',
+        'echo hello',
+        '--max-cycles', '1',
+        '--interval', '1',
+        '--quiet',
+    ]);
+    ob_end_clean();
+
+    expect($exitCode)->toBe(0);
+});
+
+test('detects cli command correctly', function () {
+    $app = new Application();
+
+    ob_start();
+    $exitCode = $app->run([
+        'dm',
+        'echo hello',
+        '--max-cycles', '1',
+        '--interval', '1',
+        '--config',
+    ]);
+    $output = ob_get_clean();
+
+    expect($exitCode)->toBe(0);
+    expect($output)->toContain('Default Configuration:');
+});
+
+test('cli command does not validate file existence', function () {
+    $app = new Application(stderr: nullStream());
+
+    ob_start();
+    $exitCode = $app->run([
+        'dm',
+        'curl -s https://example.com',
+        '--max-cycles', '1',
+        '--interval', '1',
+        '--config',
+    ]);
+    ob_end_clean();
+
+    expect($exitCode)->toBe(0);
+});
+
+test('php script with .php extension validates file existence', function () {
+    $app = new Application(stderr: nullStream());
+
+    ob_start();
+    $exitCode = $app->run([
+        'dm',
+        '/nonexistent/path/script.php',
+    ]);
+    ob_end_clean();
+
+    expect($exitCode)->toBe(1);
+});

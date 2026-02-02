@@ -84,7 +84,12 @@ class Ticker
     private function executeScript(): int
     {
         $script = $this->config->getScript();
-        $command = 'php ' . escapeshellarg($script);
+
+        if ($this->config->isCliCommand()) {
+            $command = $script;
+        } else {
+            $command = 'php ' . escapeshellarg($script);
+        }
 
         $descriptors = [
             0 => ['pipe', 'r'], // stdin

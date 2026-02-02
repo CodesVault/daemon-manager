@@ -7,6 +7,7 @@ namespace DaemonManager\Config;
 class Config
 {
     private string $script;
+    private bool $isCliCommand;
     private int $interval;
     private string $maxMemory;
     private ?int $maxRuntime;
@@ -28,6 +29,7 @@ class Config
     public function __construct(array $options = [])
     {
         $this->script = $options['script'] ?? '';
+        $this->isCliCommand = (bool) ($options['isCliCommand'] ?? false);
         $this->interval = (int) ($options['interval'] ?? self::DEFAULTS['interval']);
         $this->maxMemory = (string) ($options['maxMemory'] ?? self::DEFAULTS['maxMemory']);
         $this->maxRuntime = isset($options['maxRuntime']) ? (int) $options['maxRuntime'] : self::DEFAULTS['maxRuntime'];
@@ -52,6 +54,11 @@ class Config
     public function getScript(): string
     {
         return $this->script;
+    }
+
+    public function isCliCommand(): bool
+    {
+        return $this->isCliCommand;
     }
 
     public function getInterval(): int
@@ -99,8 +106,8 @@ class Config
         $errors = [];
 
         if (empty($this->script)) {
-            $errors[] = 'Script path is required';
-        } elseif (!file_exists($this->script)) {
+            $errors[] = 'Script path or command is required';
+        } elseif (!$this->isCliCommand && !file_exists($this->script)) {
             $errors[] = "Script not found: {$this->script}";
         }
 

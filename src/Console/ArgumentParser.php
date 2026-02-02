@@ -7,6 +7,7 @@ namespace DaemonManager\Console;
 class ArgumentParser
 {
     private ?string $script = null;
+    private bool $isCliCommand = false;
     private array $options = [];
     private array $errors = [];
     private array $optionDefinitions = [];
@@ -31,10 +32,6 @@ class ArgumentParser
     {
         array_shift($argv);
 
-        $this->script = null;
-        $this->options = [];
-        $this->errors = [];
-
         while (count($argv) > 0) {
             $arg = array_shift($argv);
 
@@ -43,11 +40,8 @@ class ArgumentParser
             } elseif (str_starts_with($arg, '-') && strlen($arg) > 1) {
                 $this->parseShortOption($arg, $argv);
             } else {
-                if ($this->script === null) {
-                    $this->script = $arg;
-                } else {
-                    $this->errors[] = "Unexpected argument: {$arg}";
-                }
+                $this->script = $arg;
+                $this->isCliCommand = !$this->looksLikePhpScript($arg);
             }
         }
 
@@ -130,9 +124,19 @@ class ArgumentParser
         return lcfirst(str_replace(' ', '', ucwords(str_replace('-', ' ', $name))));
     }
 
+    private function looksLikePhpScript(string $arg): bool
+    {
+        return str_ends_with($arg, '.php') || file_exists($arg);
+    }
+
     public function getScript(): ?string
     {
         return $this->script;
+    }
+
+    public function isCliCommand(): bool
+    {
+        return $this->isCliCommand;
     }
 
     public function getOptions(): array
@@ -191,6 +195,7 @@ class ArgumentParser
 
         if ($this->script !== null) {
             $config['script'] = $this->script;
+            $config['isCliCommand'] = $this->isCliCommand;
         }
 
         $mapping = [
