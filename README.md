@@ -28,7 +28,7 @@ Running cron jobs and background tasks in PHP typically requires system-level co
 
 ## Installation
 
-You can install Cadence via Composer. It's recommanded to install Cadence as a global dependency. Run the following command in your terminal:
+Install Cadence via Composer. It's recommanded to install Cadence as a global dependency. Run the following command in terminal:
 
 ```bash
 composer global require codesvault/cadence
@@ -55,11 +55,9 @@ composer require codesvault/cadence
 
 <br>
 
-## Usages for Developers
+## Usages for Development and Debugging
 
-Developers can run Cadence on the foreground for development and debugging purposes. This allows to run background-process and see real-time output and logs directly in your terminal or in log file.
-
-Cadence also can make php debugging real-time by running background-process in foreground mode.
+Developers can run Cadence on the foreground for development and real-time debugging purposes. This allows to run background-process and see real-time output and logs directly in your terminal or in log file.
 
 ### Basic Usage
 
