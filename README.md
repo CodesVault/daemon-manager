@@ -33,6 +33,7 @@ composer global require codesvault/cadence
 ```
 
 Make sure Composer's global bin directory is in your system's PATH:
+
 `export PATH="$PATH:$HOME/.composer/vendor/bin"`
 
 Then run the following command to verify the installation:
@@ -43,6 +44,7 @@ cadence --help
 
 <br>
 
+It's recommended to use Cadence as a global dependency for easier access to the `cadence` command from any location in your terminal. 
 Alternatively, you can install Cadence as a project dependency:
 
 ```bash
@@ -53,7 +55,9 @@ composer require codesvault/cadence
 
 ## Usages for Developers
 
-Developers can run Cadence on the foreground for development and debugging purposes. This allows you to see real-time output and logs directly in your terminal or in log file.
+Developers can run Cadence on the foreground for development and debugging purposes. This allows to run background-process and see real-time output and logs directly in your terminal or in log file.
+
+Cadence also can make php debugging real-time by running background-process in foreground mode.
 
 ### Basic Usage
 
