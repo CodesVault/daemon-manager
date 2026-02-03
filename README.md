@@ -1,6 +1,8 @@
 # Cadence
 
-Cadence is a PHP library designed to facilitate the management of background processes (daemons) in PHP applications. It provides a simple and efficient way to start, stop, and monitor daemons, making it easier to handle long-running tasks in your applications.
+Cadence creates and manages PHP daemons with ease for running all heavy-lifting tasks in the background.
+
+Running cron jobs and background tasks in PHP typically requires system-level configuration, custom process management, or framework-specific solutions. Cadence eliminates this complexity. It turns any existing code into a managed daemon without modifications. It handles the repetitive execution cycle, memory management, graceful restarts, and structured logging so you can focus on your application logic. Enables real-time debugging by streaming output directly to your terminal or log files. Works standalone for development or pairs with Supervisor for production deployments.
 
 <br>
 
