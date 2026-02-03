@@ -116,6 +116,7 @@ class CommandList
             'CAD_LOG_FILE',
             'CAD_LOG_LEVEL',
             'CAD_LOG_TIMEZONE',
+            'CAD_DEBUG_LOG_FILE',
         ];
     }
 }

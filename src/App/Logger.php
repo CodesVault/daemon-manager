@@ -22,6 +22,7 @@ class Logger
 
     private string $level;
     private ?string $logFile;
+    private ?string $debugLogFile;
     private ?\DateTimeZone $logTimezone;
 
     /** @var resource|null */
@@ -31,10 +32,12 @@ class Logger
         string $level = self::LEVEL_INFO,
         ?string $logFile = null,
         mixed $stdout = null,
-        ?string $logTimezone = null
+        ?string $logTimezone = null,
+        ?string $debugLogFile = null
     ) {
         $this->level = $level;
         $this->logFile = $logFile;
+        $this->debugLogFile = $debugLogFile;
         $this->stdout = $stdout ?? STDOUT;
         $this->logTimezone = $this->parseLogTimezone($logTimezone);
     }
@@ -80,6 +83,11 @@ class Logger
 
         $formatted = $this->format($level, $message);
 
+        if ($level === self::LEVEL_DEBUG && $this->debugLogFile !== null) {
+            $this->writeToDebugFile($message);
+            return;
+        }
+
         $this->write($formatted);
     }
 
@@ -107,9 +115,20 @@ class Logger
     {
         if ($this->logFile !== null) {
             file_put_contents($this->logFile, $message . "\n", FILE_APPEND);
-        } else {
-            fwrite($this->stdout, $message . "\n");
+            return;
         }
+
+        fwrite($this->stdout, $message . "\n");
+    }
+
+    private function writeToDebugFile(string $message): void
+    {
+        $dateTime = new \DateTime('now', $this->logTimezone);
+        $timestamp = $dateTime->format('Y-m-d H:i:s');
+
+        $formatted = "[{$timestamp}]\n{$message}\n";
+
+        file_put_contents($this->debugLogFile, $formatted);
     }
 
     public function getLevel(): string
@@ -120,6 +139,11 @@ class Logger
     public function getLogFile(): ?string
     {
         return $this->logFile;
+    }
+
+    public function getDebugLogFile(): ?string
+    {
+        return $this->debugLogFile;
     }
 
     public static function getValidLevels(): array
@@ -140,12 +164,20 @@ class Logger
             $this->logStdErr($stderr);
         }
 
-        // stdout may contain normal output mixed with display_errors output
-        // Extract only non-error lines for debug
         if ($stdout !== '') {
-            $debugOutput = $this->extractDebugOutput($stdout);
+            $debugOutput = '';
+            if ($this->debugLogFile !== null) {
+                $debugOutput = $this->extractDebugOutputRaw($stdout);
+            } else {
+                $debugOutput = $this->extractDebugOutput($stdout);
+            }
+
             if ($debugOutput !== '') {
-                $this->debug('Output: ' . $debugOutput);
+                if ($this->debugLogFile !== null) {
+                    $this->debug($debugOutput);
+                } else {
+                    $this->debug('Output: ' . $debugOutput);
+                }
             }
         }
     }
@@ -206,6 +238,18 @@ class Logger
         }
 
         return implode(' ', $debugLines);
+    }
+
+    private function extractDebugOutputRaw(string $stdout): string
+    {
+        $lines = explode("\n", $stdout);
+        $debugLines = [];
+
+        foreach ($lines as $line) {
+            $debugLines[] = $line;
+        }
+
+        return rtrim(implode("\n", $debugLines));
     }
 
     private function isStackTrace(string $line): bool

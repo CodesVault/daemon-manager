@@ -94,7 +94,8 @@ class Application
             $this->config->getLogLevel(),
             $this->config->getLogFile(),
             null,
-            $this->config->getLogTimezone()
+            $this->config->getLogTimezone(),
+            $this->config->getDebugLogFile()
         );
 
         $ticker = new Ticker($this->config, $logger);

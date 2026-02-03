@@ -9,13 +9,14 @@ use Dotenv\Dotenv;
 class EnvLoader
 {
     private const ENV_MAP = [
-        'CAD_INTERVAL'     => 'interval',
-        'CAD_MAX_MEMORY'   => 'maxMemory',
-        'CAD_MAX_RUNTIME'  => 'maxRuntime',
-        'CAD_MAX_CYCLES'   => 'maxCycles',
-        'CAD_LOG_FILE'     => 'logFile',
-        'CAD_LOG_LEVEL'    => 'logLevel',
-        'CAD_LOG_TIMEZONE' => 'logTimezone',
+        'CAD_INTERVAL'       => 'interval',
+        'CAD_MAX_MEMORY'     => 'maxMemory',
+        'CAD_MAX_RUNTIME'    => 'maxRuntime',
+        'CAD_MAX_CYCLES'     => 'maxCycles',
+        'CAD_LOG_FILE'       => 'logFile',
+        'CAD_LOG_LEVEL'      => 'logLevel',
+        'CAD_LOG_TIMEZONE'   => 'logTimezone',
+        'CAD_DEBUG_LOG_FILE' => 'debugLogFile',
     ];
 
     public function load(?string $envPath = null, ?string $scriptPath = null): array

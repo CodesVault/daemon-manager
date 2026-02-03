@@ -15,15 +15,17 @@ class Config
     private ?string $logFile;
     private string $logLevel;
     private ?string $logTimezone;
+    private ?string $debugLogFile;
 
     private const DEFAULTS = [
-        'interval'    => 60,
-        'maxMemory'   => '128M',
-        'maxRuntime'  => 3600,
-        'maxCycles'   => null,
-        'logFile'     => null,
-        'logLevel'    => 'info',
-        'logTimezone' => null,
+        'interval'     => 60,
+        'maxMemory'    => '128M',
+        'maxRuntime'   => 3600,
+        'maxCycles'    => null,
+        'logFile'      => null,
+        'logLevel'     => 'info',
+        'logTimezone'  => null,
+        'debugLogFile' => null,
     ];
 
     public function __construct(array $options = [])
@@ -37,6 +39,7 @@ class Config
         $this->logFile = $options['logFile'] ?? self::DEFAULTS['logFile'];
         $this->logLevel = (string) ($options['logLevel'] ?? self::DEFAULTS['logLevel']);
         $this->logTimezone = $options['logTimezone'] ?? self::DEFAULTS['logTimezone'];
+        $this->debugLogFile = $options['debugLogFile'] ?? self::DEFAULTS['debugLogFile'];
     }
 
     public static function fromMerged(array $defaults, array $env, array $cli): self
@@ -101,6 +104,11 @@ class Config
         return $this->logTimezone;
     }
 
+    public function getDebugLogFile(): ?string
+    {
+        return $this->debugLogFile;
+    }
+
     public function validate(): array
     {
         $errors = [];
@@ -159,14 +167,15 @@ class Config
     public function toArray(): array
     {
         return [
-            'script'      => $this->script,
-            'interval'    => $this->interval,
-            'maxMemory'   => $this->maxMemory,
-            'maxRuntime'  => $this->maxRuntime,
-            'maxCycles'   => $this->maxCycles,
-            'logFile'     => $this->logFile,
-            'logLevel'    => $this->logLevel,
-            'logTimezone' => $this->logTimezone,
+            'script'       => $this->script,
+            'interval'     => $this->interval,
+            'maxMemory'    => $this->maxMemory,
+            'maxRuntime'   => $this->maxRuntime,
+            'maxCycles'    => $this->maxCycles,
+            'logFile'      => $this->logFile,
+            'logLevel'     => $this->logLevel,
+            'logTimezone'  => $this->logTimezone,
+            'debugLogFile' => $this->debugLogFile,
         ];
     }
 }

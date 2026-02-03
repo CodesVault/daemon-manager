@@ -7,19 +7,20 @@ Cadence is a PHP library designed to facilitate the management of background pro
 ## Features
 
 - Use with Supervisor for robust process management in production environments
-- Run Cron jobs as daemons
+- Run on foreground for development and debugging purposes
+- Run Cron jobs as daemons without modifying existing code
 - Start and stop daemons with ease
 - Monitor process status
 - Handle process logs
 - Easy integration with existing PHP applications
-- Run on foreground for development and debugging purposes
+- Framework agnostic, works with any PHP framework or plain PHP scripts
 
 <br>
 
 ## Prerequisites
 
 - PHP 8.1 or higher
-- Composer 2.x for dependency management
+- Composer 2.x for installation
 - Linux server with Supervisor installed for production use
 
 <br>
@@ -120,4 +121,5 @@ The following environment variables can be used to configure Cadence:
 | `CAD_MAX_RUNTIME` | Maximum runtime in seconds before restart | 3600 |
 | `CAD_MAX_CYCLES` | Maximum number of cycles before restart | unlimited |
 | `CAD_LOG_FILE` | Path to log file | none |
-| `CAD_LOG_LEVEL` | Logging level (debug, info, warning, error) | info |    
+| `CAD_LOG_LEVEL` | Logging level (debug, info, warning, error) | info |
+| `CAD_DEBUG_LOG_FILE` | Path to debug log file | none |
