@@ -1,6 +1,6 @@
-# Daemon Manager
+# Cadence
 
-Daemon Manager is a PHP library designed to facilitate the management of background processes (daemons) in PHP applications. It provides a simple and efficient way to start, stop, and monitor daemons, making it easier to handle long-running tasks in your applications.
+Cadence is a PHP library designed to facilitate the management of background processes (daemons) in PHP applications. It provides a simple and efficient way to start, stop, and monitor daemons, making it easier to handle long-running tasks in your applications.
 
 ## Features
 

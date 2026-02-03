@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace DaemonManager\Console;
+namespace Cadence\Console;
 
-use DaemonManager\App\Logger;
-use DaemonManager\App\Ticker;
-use DaemonManager\Config\Config;
-use DaemonManager\Config\EnvLoader;
+use Cadence\App\Logger;
+use Cadence\App\Ticker;
+use Cadence\Config\Config;
+use Cadence\Config\EnvLoader;
 
 class Application
 {
     public const VERSION = '1.0.0';
-    public const NAME = 'Daemon Manager';
+    public const NAME = 'Cadence';
 
     private ?Config $config = null;
 
@@ -53,7 +53,7 @@ class Application
         }
 
         if ($this->parser->getScript() === null) {
-            $this->printError('Error: script path or command is required. Run \'dm --help\' for usage.');
+            $this->printError('Error: script path or command is required. Run \'cadence --help\' for usage.');
             $this->printUsage();
             return 1;
         }
@@ -116,8 +116,8 @@ class Application
 
         // Usage
         echo "Usage:\n";
-        echo "  dm <script.php> [options]\n";
-        echo "  dm '<command>'  [options]\n\n";
+        echo "  cadence <script.php> [options]\n";
+        echo "  cadence '<command>'  [options]\n\n";
 
         // Arguments
         echo "Arguments:\n";
@@ -176,9 +176,9 @@ class Application
 
     private function printUsage(): void
     {
-        echo "Usage:\n  dm <script.php> [options]\n";
-        echo "  dm '<command>'  [options]\n\n";
-        echo "Run 'dm --help' for more information.\n";
+        echo "Usage:\n  cadence <script.php> [options]\n";
+        echo "  cadence '<command>'  [options]\n\n";
+        echo "Run 'cadence --help' for more information.\n";
     }
 
     private function printConfig(): void

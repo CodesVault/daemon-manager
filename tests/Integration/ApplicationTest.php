@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-use DaemonManager\Console\Application;
+use Cadence\Console\Application;
 
 test('shows help', function () {
     $app = new Application();
 
     ob_start();
-    $exitCode = $app->run(['dm', '--help']);
+    $exitCode = $app->run(['cadence', '--help']);
     $output = ob_get_clean();
 
     expect($exitCode)->toBe(0);
-    expect($output)->toContain('Daemon Manager');
+    expect($output)->toContain('Cadence');
     expect($output)->toContain('Usage:');
     expect($output)->toContain('Options:');
 });
@@ -21,11 +21,11 @@ test('shows version', function () {
     $app = new Application();
 
     ob_start();
-    $exitCode = $app->run(['dm', '--version']);
+    $exitCode = $app->run(['cadence', '--version']);
     $output = ob_get_clean();
 
     expect($exitCode)->toBe(0);
-    expect($output)->toContain('Daemon Manager');
+    expect($output)->toContain('Cadence');
     expect($output)->toContain('v1.0.0');
 });
 
@@ -33,7 +33,7 @@ test('requires script path', function () {
     $app = new Application(stderr: nullStream());
 
     ob_start();
-    $exitCode = $app->run(['dm']);
+    $exitCode = $app->run(['cadence']);
     ob_end_clean();
 
     expect($exitCode)->toBe(1);
@@ -43,7 +43,7 @@ test('shows config with valid script', function () {
     $app = new Application();
 
     ob_start();
-    $exitCode = $app->run(['dm', fixturesPath() . '/success_script.php', '--config']);
+    $exitCode = $app->run(['cadence', fixturesPath() . '/success_script.php', '--config']);
     $output = ob_get_clean();
 
     expect($exitCode)->toBe(0);
@@ -56,7 +56,7 @@ test('parses interval option', function () {
 
     ob_start();
     $exitCode = $app->run([
-        'dm',
+        'cadence',
         fixturesPath() . '/success_script.php',
         '--interval', '30',
         '--config',
@@ -72,7 +72,7 @@ test('parses short options', function () {
 
     ob_start();
     $exitCode = $app->run([
-        'dm',
+        'cadence',
         fixturesPath() . '/success_script.php',
         '-i', '15',
         '--config',
@@ -87,7 +87,7 @@ test('validates script exists', function () {
     $app = new Application(stderr: nullStream());
 
     ob_start();
-    $exitCode = $app->run(['dm', fixturesPath() . '/nonexistent-script.php']);
+    $exitCode = $app->run(['cadence', fixturesPath() . '/nonexistent-script.php']);
     ob_end_clean();
 
     expect($exitCode)->toBe(1);
@@ -97,7 +97,7 @@ test('handles unknown options', function () {
     $app = new Application(stderr: nullStream());
 
     ob_start();
-    $exitCode = $app->run(['dm', '--unknown-option']);
+    $exitCode = $app->run(['cadence', '--unknown-option']);
     ob_end_clean();
 
     expect($exitCode)->toBe(1);
@@ -108,7 +108,7 @@ test('runs ticker with max cycles', function () {
 
     ob_start();
     $exitCode = $app->run([
-        'dm',
+        'cadence',
         fixturesPath() . '/success_script.php',
         '--max-cycles', '1',
         '--interval', '1',
@@ -124,7 +124,7 @@ test('runs cli command instead of php script', function () {
 
     ob_start();
     $exitCode = $app->run([
-        'dm',
+        'cadence',
         'echo hello',
         '--max-cycles', '1',
         '--interval', '1',
@@ -140,7 +140,7 @@ test('detects cli command correctly', function () {
 
     ob_start();
     $exitCode = $app->run([
-        'dm',
+        'cadence',
         'echo hello',
         '--max-cycles', '1',
         '--interval', '1',
@@ -157,7 +157,7 @@ test('cli command does not validate file existence', function () {
 
     ob_start();
     $exitCode = $app->run([
-        'dm',
+        'cadence',
         'curl -s https://example.com',
         '--max-cycles', '1',
         '--interval', '1',
@@ -173,7 +173,7 @@ test('php script with .php extension validates file existence', function () {
 
     ob_start();
     $exitCode = $app->run([
-        'dm',
+        'cadence',
         '/nonexistent/path/script.php',
     ]);
     ob_end_clean();

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use DaemonManager\App\Logger;
-use DaemonManager\App\Ticker;
-use DaemonManager\Config\Config;
+use Cadence\App\Logger;
+use Cadence\App\Ticker;
+use Cadence\Config\Config;
 
 beforeEach(function () {
     /* @disregard P1014 Undefined property - Pest dynamic property */
@@ -40,7 +40,7 @@ test('stops after max cycles', function () {
     $this->tempFiles[] = $counterFile;
 
     // Set env var for counter script
-    putenv('DM_COUNTER_FILE=' . $counterFile);
+    putenv('CAD_COUNTER_FILE=' . $counterFile);
 
     $config = new Config([
         'script'    => fixturesPath() . '/counter_script.php',
@@ -53,7 +53,7 @@ test('stops after max cycles', function () {
     $exitCode = $ticker->run();
 
     // Clean up env
-    putenv('DM_COUNTER_FILE');
+    putenv('CAD_COUNTER_FILE');
 
     expect($exitCode)->toBe(0);
     expect($ticker->getCycles())->toBe(3);
@@ -140,7 +140,7 @@ test('with custom logger to file', function () {
 
     expect(file_exists($logFile))->toBeTrue();
     $content = file_get_contents($logFile);
-    expect($content)->toContain('Starting Daemon Manager');
+    expect($content)->toContain('Starting Cadence');
 });
 
 test('with debug log level', function () {

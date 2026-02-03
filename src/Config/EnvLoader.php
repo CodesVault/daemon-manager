@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace DaemonManager\Config;
+namespace Cadence\Config;
 
 use Dotenv\Dotenv;
 
 class EnvLoader
 {
     private const ENV_MAP = [
-        'DM_INTERVAL'     => 'interval',
-        'DM_MAX_MEMORY'   => 'maxMemory',
-        'DM_MAX_RUNTIME'  => 'maxRuntime',
-        'DM_MAX_CYCLES'   => 'maxCycles',
-        'DM_LOG_FILE'     => 'logFile',
-        'DM_LOG_LEVEL'    => 'logLevel',
-        'DM_LOG_TIMEZONE' => 'logTimezone',
+        'CAD_INTERVAL'     => 'interval',
+        'CAD_MAX_MEMORY'   => 'maxMemory',
+        'CAD_MAX_RUNTIME'  => 'maxRuntime',
+        'CAD_MAX_CYCLES'   => 'maxCycles',
+        'CAD_LOG_FILE'     => 'logFile',
+        'CAD_LOG_LEVEL'    => 'logLevel',
+        'CAD_LOG_TIMEZONE' => 'logTimezone',
     ];
 
     public function load(?string $envPath = null, ?string $scriptPath = null): array

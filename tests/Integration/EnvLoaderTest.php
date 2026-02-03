@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-use DaemonManager\Config\EnvLoader;
+use Cadence\Config\EnvLoader;
 
 test('loads env file from script directory', function () {
     $envFile = fixturesPath() . '/.env';
 
-    file_put_contents($envFile, "DM_INTERVAL=3\nDM_MAX_MEMORY=100M\n");
+    file_put_contents($envFile, "CAD_INTERVAL=3\nCAD_MAX_MEMORY=100M\n");
 
     $loader = new EnvLoader();
     $config = $loader->load(null, fixturesPath() . '/success_script.php');
@@ -38,7 +38,7 @@ test('returns empty array when no env file exists', function () {
 test('loads env file from explicit path', function () {
     $envFile = getTmpPath() . '/custom.env';
 
-    file_put_contents($envFile, "DM_INTERVAL=5\nDM_MAX_CYCLES=3\n");
+    file_put_contents($envFile, "CAD_INTERVAL=5\nCAD_MAX_CYCLES=3\n");
 
     $loader = new EnvLoader();
     $config = $loader->load($envFile);
@@ -59,7 +59,7 @@ test('returns empty array when script path is null', function () {
 test('casts integer values correctly', function () {
     $envFile = fixturesPath() . '/.env';
 
-    file_put_contents($envFile, "DM_INTERVAL=2\nDM_MAX_RUNTIME=10\nDM_MAX_CYCLES=10\n");
+    file_put_contents($envFile, "CAD_INTERVAL=2\nCAD_MAX_RUNTIME=10\nCAD_MAX_CYCLES=10\n");
 
     $loader = new EnvLoader();
     $config = $loader->load(null, fixturesPath() . '/success_script.php');
@@ -74,7 +74,7 @@ test('casts integer values correctly', function () {
 test('handles empty values as null', function () {
     $envFile = fixturesPath() . '/.env';
 
-    file_put_contents($envFile, "DM_INTERVAL=\nDM_LOG_LEVEL=info\n");
+    file_put_contents($envFile, "CAD_INTERVAL=\nCAD_LOG_LEVEL=info\n");
 
     $loader = new EnvLoader();
     $config = $loader->load(null, fixturesPath() . '/success_script.php');

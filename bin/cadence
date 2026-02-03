@@ -29,7 +29,7 @@ if (!$autoloadFound) {
     exit(1);
 }
 
-use DaemonManager\Console\Application;
+use Cadence\Console\Application;
 
 $app = new Application();
 exit($app->run($argv));

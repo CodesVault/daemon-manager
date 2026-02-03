@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DaemonManager\Console;
+namespace Cadence\Console;
 
 class ArgumentParser
 {

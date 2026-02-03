@@ -1,12 +1,12 @@
 {
-    "name": "codesvault/daemon-manager",
+    "name": "codesvault/cadence",
     "description": "A PHP daemon runner for executing scripts at regular intervals",
     "license": "MIT",
     "type": "library",
     "keywords": ["daemon", "cron", "scheduler", "worker", "cli"],
     "autoload": {
         "psr-4": {
-            "DaemonManager\\": "src/"
+            "Cadence\\": "src/"
         }
     },
     "authors": [
@@ -26,7 +26,7 @@
 			"pestphp/pest-plugin": true
 		}
 	},
-    "bin": ["bin/dm"],
+    "bin": ["bin/cadence"],
     "require": {
         "php": ">=8.1",
         "vlucas/phpdotenv": "^5.6"
@@ -37,7 +37,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "DaemonManager\\Tests\\": "tests/"
+            "Cadence\\Tests\\": "tests/"
         }
     }
 }

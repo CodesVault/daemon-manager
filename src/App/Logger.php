@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DaemonManager\App;
+namespace Cadence\App;
 
 class Logger
 {

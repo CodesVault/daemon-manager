@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DaemonManager\Console;
+namespace Cadence\Console;
 
 class CommandList
 {
@@ -98,24 +98,24 @@ class CommandList
     public function examples(): array
     {
         return [
-            'dm /var/www/html/wp-cron.php',
-            'dm /var/www/html/wp-cron.php --interval 10 --max-memory 256M',
-            'dm /var/www/html/artisan schedule:run --env /var/www/.env',
-            "dm 'curl -s https://example.com/webhook' -i 60",
-            "dm 'echo hello' --max-cycles 5",
+            'cadence /var/www/html/wp-cron.php',
+            'cadence /var/www/html/wp-cron.php --interval 10 --max-memory 256M',
+            'cadence /var/www/html/artisan schedule:run --env /var/www/.env',
+            "cadence 'curl -s https://example.com/webhook' -i 60",
+            "cadence 'echo hello' --max-cycles 5",
         ];
     }
 
     public function envVariables(): array
     {
         return [
-            'DM_INTERVAL',
-            'DM_MAX_MEMORY',
-            'DM_MAX_RUNTIME',
-            'DM_MAX_CYCLES',
-            'DM_LOG_FILE',
-            'DM_LOG_LEVEL',
-            'DM_LOG_TIMEZONE',
+            'CAD_INTERVAL',
+            'CAD_MAX_MEMORY',
+            'CAD_MAX_RUNTIME',
+            'CAD_MAX_CYCLES',
+            'CAD_LOG_FILE',
+            'CAD_LOG_LEVEL',
+            'CAD_LOG_TIMEZONE',
         ];
     }
 }

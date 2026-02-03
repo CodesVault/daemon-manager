@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DaemonManager\Config;
+namespace Cadence\Config;
 
 class Config
 {

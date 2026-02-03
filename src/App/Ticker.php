@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace DaemonManager\App;
+namespace Cadence\App;
 
-use DaemonManager\Config\Config;
+use Cadence\Config\Config;
 
 class Ticker
 {
@@ -51,7 +51,7 @@ class Ticker
 
         $this->log(
             Logger::LEVEL_INFO,
-            "Starting Daemon Manager for: {$this->config->getScript()}"
+            "Starting Cadence for: {$this->config->getScript()}"
         );
         $this->log(
             Logger::LEVEL_INFO,
@@ -63,7 +63,7 @@ class Ticker
     {
         $this->log(
             Logger::LEVEL_INFO,
-            "Daemon Manager stopped after {$this->cycles} cycles"
+            "Cadence stopped after {$this->cycles} cycles"
         );
     }
 
