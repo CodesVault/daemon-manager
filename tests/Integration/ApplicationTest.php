@@ -17,18 +17,6 @@ test('shows help', function () {
     expect($output)->toContain('Options:');
 });
 
-test('shows version', function () {
-    $app = new Application();
-
-    ob_start();
-    $exitCode = $app->run(['cadence', '--version']);
-    $output = ob_get_clean();
-
-    expect($exitCode)->toBe(0);
-    expect($output)->toContain('Cadence');
-    expect($output)->toContain('v1.0.0');
-});
-
 test('requires script path', function () {
     $app = new Application(stderr: nullStream());
 

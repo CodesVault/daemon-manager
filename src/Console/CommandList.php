@@ -63,16 +63,10 @@ class CommandList
                 'desc'  => 'Path to .env file for configuration [default: auto-detect]',
             ],
             [
-                'short' => 'V',
+                'short' => 'v',
                 'long'  => 'version',
                 'type'  => 'bool',
                 'desc'  => 'Display the version information',
-            ],
-            [
-                'short' => 'v',
-                'long'  => 'verbose',
-                'type'  => 'bool',
-                'desc'  => 'Enable verbose output',
             ],
             [
                 'short' => 'q',

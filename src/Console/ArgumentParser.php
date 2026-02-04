@@ -169,11 +169,6 @@ class ArgumentParser
         return $this->options['config'] ?? false;
     }
 
-    public function isVerbose(): bool
-    {
-        return $this->options['verbose'] ?? false;
-    }
-
     public function isQuiet(): bool
     {
         return $this->options['quiet'] ?? false;

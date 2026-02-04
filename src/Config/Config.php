@@ -136,6 +136,14 @@ class Config
             $errors[] = 'Log level must be one of: ' . implode(', ', $validLogLevels);
         }
 
+        if ($this->logFile && is_dir(dirname($this->logFile)) === false) {
+            $errors[] = 'Log file path is invalid: ' . $this->logFile;
+        }
+
+        if ($this->debugLogFile && is_dir(dirname($this->debugLogFile)) === false) {
+            $errors[] = 'Debug log file path is invalid: ' . $this->debugLogFile;
+        }
+
         return $errors;
     }
 

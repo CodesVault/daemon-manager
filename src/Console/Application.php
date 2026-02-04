@@ -11,7 +11,7 @@ use Cadence\Config\EnvLoader;
 
 class Application
 {
-    public const VERSION = '1.0.0';
+    public const VERSION = '1.0.1';
     public const NAME = 'Cadence';
 
     private ?Config $config = null;
@@ -66,11 +66,6 @@ class Application
         if (!empty($errors) && is_array($errors)) {
             $this->printErrors($errors);
             return 1;
-        }
-
-        // Show config in verbose mode
-        if ($this->parser->isVerbose()) {
-            $this->printConfig();
         }
 
         // Start the process
@@ -202,8 +197,10 @@ class Application
 
     private function printErrors(array $errors): void
     {
+        echo "\n";
         foreach ($errors as $error) {
             $this->printError("Error: {$error}");
         }
+        echo "\n";
     }
 }
