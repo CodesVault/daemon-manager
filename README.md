@@ -182,3 +182,9 @@ sudo supervisorctl restart cadence
 # Check the status of the Cadence process
 sudo supervisorctl status cadence
 ```
+
+<br>
+
+## Contribution Guidelines
+
+We welcome contributions to Cadence! Whether it's a bug fix, new feature, or documentation improvement, your help is appreciated. Please follow our [contributing guidelines](CONTRIBUTING.md) to get started.
