@@ -25,6 +25,8 @@ Running cron jobs and background tasks in PHP typically requires system-level co
 
 <br>
 
+*Click to play Demo Video* ⬇️
+
 [![Cadence](https://pub-5fc605b04a4c467ca4a3fbed361deaf9.r2.dev/cadence-demo/cadence-demo-Cover.jpg)](https://pub-5fc605b04a4c467ca4a3fbed361deaf9.r2.dev/cadence-demo/cadence-demo.mp4)
 
 <br>
