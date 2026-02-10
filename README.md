@@ -6,11 +6,12 @@ Running cron jobs and background tasks in PHP typically requires system-level co
 
 <br>
 
+[![Total Downloads](https://img.shields.io/packagist/dt/codesvault/cadence.svg)](https://packagist.org/packages/codesvault/cadence)
 [![Latest Version](https://img.shields.io/packagist/v/codesvault/cadence.svg)](https://packagist.org/packages/codesvault/cadence)
+
 [![PHP Version](https://img.shields.io/packagist/php-v/codesvault/cadence.svg)](https://packagist.org/packages/codesvault/cadence)
-[![License](https://img.shields.io/packagist/l/codesvault/cadence.svg)](LICENSE)
 [![Composer](https://img.shields.io/badge/composer-2.0%2B-blue.svg)](https://getcomposer.org/)
-<!-- [![Total Downloads](https://img.shields.io/packagist/dt/codesvault/cadence.svg)](https://packagist.org/packages/codesvault/cadence) -->
+[![License](https://img.shields.io/packagist/l/codesvault/cadence.svg)](LICENSE)
 
 <br>
 
