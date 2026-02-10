@@ -12,6 +12,21 @@ Running cron jobs and background tasks in PHP typically requires system-level co
 [![Composer](https://img.shields.io/badge/composer-2.0%2B-blue.svg)](https://getcomposer.org/)
 <!-- [![Total Downloads](https://img.shields.io/packagist/dt/codesvault/cadence.svg)](https://packagist.org/packages/codesvault/cadence) -->
 
+<br>
+
+## Why Cadence?
+
+| Challenge | Without Cadence | With Cadence |
+|-----------|----------------|--------------|
+| **Running background tasks** | Write custom loop scripts, manage sleep cycles, handle exits manually | `cadence /path/to/script.php` — done |
+| **Memory leaks** | Processes grow until they crash or get killed | Auto-restarts when memory limit is reached |
+| **Process crashes** | Cron runs once and fails silently, no retry | Continuous execution with structured error logging |
+| **Debugging** | Tail log files, add var_dump, redeploy | Real-time output in terminal or dedicated debug log file |
+| **Configuration** | Edit crontab, modify system configs, restart services | `.env` file or CLI flags, no system changes needed |
+| **Framework dependency** | Laravel Scheduler, Symfony Messenger — locked to one framework | Framework agnostic, works with any PHP script or CLI command |
+
+<br>
+
 ## Features
 
 - Use with Supervisor for robust process management in production environments
