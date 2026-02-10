@@ -1,10 +1,23 @@
 # Cadence
 
-**Cadence** creates and manages PHP daemons with ease for running all heavy-lifting tasks in the background.
+Creates and manages PHP daemons with ease for running all heavy-lifting tasks in the background.
 
 Running scripts as daemons is a common requirement for PHP applications. Traditional cron jobs work for simple tasks, but when you need reliable background processing with memory management, graceful restarts, and real-time monitoring — you need a daemon manager.
 
 Cadence transforms any PHP script or CLI command into a managed, long-running background process.
+
+---
+
+## Why Cadence?
+
+| Challenge | Without Cadence | With Cadence |
+|-----------|----------------|--------------|
+| **Running background tasks** | Write custom loop scripts, manage sleep cycles, handle exits manually | `cadence /path/to/script.php` — done |
+| **Memory leaks** | Processes grow until they crash or get killed | Auto-restarts when memory limit is reached |
+| **Process crashes** | Cron runs once and fails silently, no retry | Continuous execution with structured error logging |
+| **Debugging** | Tail log files, add var_dump, redeploy | Real-time output in terminal or dedicated debug log file |
+| **Configuration** | Edit crontab, modify system configs, restart services | `.env` file or CLI flags, no system changes needed |
+| **Framework dependency** | Laravel Scheduler, Symfony Messenger — locked to one framework | Framework agnostic, works with any PHP script or CLI command |
 
 ---
 

@@ -8,3 +8,5 @@ composer.phar
 .phpunit.cache
 /tests/tmp/
 /tests/Integration/Fixtures/.env
+
+ROADMAP.md

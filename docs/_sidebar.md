@@ -2,6 +2,7 @@
 
 * **Getting Started**
   * [Introduction](#cadence)
+  * [Why Cadence](#why-cadence)
   * [Quick Start](#quick-start)
   * [Installation](#installation)
 
