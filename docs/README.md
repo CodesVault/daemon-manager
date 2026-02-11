@@ -229,28 +229,6 @@ cadence /path/to/script.php --log-file /var/log/cadence.log
 
 ---
 
-## Debug Logging
-
-Route debug output to a separate file for real-time debugging without cluttering your main logs.
-
-```env
-CAD_DEBUG_LOG_FILE=/var/log/cadence_debug.log
-```
-
-Debug log format:
-```
-[2026-02-05 12:30:45]
-Array
-(
-    [task] => process_queue
-    [items] => 42
-)
-```
-
-> **Note:** If the debug log directory doesn't exist, Cadence will log a warning and continue without debug file logging.
-
----
-
 ## Process Registry
 
 Cadence includes a built-in **process registry** that tracks all running daemons. Each daemon is registered with a name, PID, and script path in `~/.cadence/registry/`.
@@ -306,6 +284,28 @@ Stop a running daemon by name:
 ```bash
 cadence stop wp-cron
 ```
+
+---
+
+## Debug Logging
+
+Route debug output to a separate file for real-time debugging without cluttering your main logs.
+
+```env
+CAD_DEBUG_LOG_FILE=/var/log/cadence_debug.log
+```
+
+Debug log format:
+```
+[2026-02-05 12:30:45]
+Array
+(
+    [task] => process_queue
+    [items] => 42
+)
+```
+
+> **Note:** If the debug log directory doesn't exist, Cadence will log a warning and continue without debug file logging.
 
 ---
 
