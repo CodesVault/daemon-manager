@@ -38,6 +38,7 @@ Running cron jobs and background tasks in PHP typically requires system-level co
 - Handle process logs
 - Easy integration with existing PHP applications
 - Framework agnostic, works with any PHP framework or plain PHP scripts
+- Process Registry
 
 <br>
 
