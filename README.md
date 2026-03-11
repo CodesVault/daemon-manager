@@ -212,6 +212,50 @@ sudo supervisorctl status cadence
 
 <br>
 
+## Managing Cadence with Crontab
+
+Cadence works seamlessly with system crontab. Use `--max-cycles 1` to run a script once and exit — cron handles the scheduling, Cadence handles the execution with logging, memory tracking, and error capture.
+
+### Setting Up Crontab
+
+Edit your crontab:
+
+```bash
+crontab -e
+```
+
+Add entries using the format:
+
+```bash
+# ┌───────────── minute (0-59)
+# │ ┌───────────── hour (0-23)
+# │ │ ┌───────────── day of month (1-31)
+# │ │ │ ┌───────────── month (1-12)
+# │ │ │ │ ┌───────────── day of week (0-6, Sunday=0)
+# │ │ │ │ │
+# * * * * * command
+```
+
+### Examples
+
+```bash
+# Run WordPress cron every 5 minutes
+*/5 * * * * cadence /var/www/html/wp-cron.php --max-cycles 1
+
+# Run Laravel scheduler every minute with logging
+* * * * * cadence '/var/www/html/artisan schedule:run' --max-cycles 1 --log-file /var/log/cadence-laravel.log
+
+# Run a cleanup script daily at 3:00 AM
+0 3 * * * cadence /var/www/html/cleanup.php --max-cycles 1 --log-file /var/log/cadence-cleanup.log --log-level warning
+
+# Call a webhook every hour
+0 * * * * cadence 'curl -s https://example.com/webhook' --max-cycles 1
+```
+
+Since crontab runs without a terminal, use `--log-file` to capture output and `--log-level` to control verbosity.
+
+<br>
+
 ## Contribution Guidelines
 
 We welcome contributions to Cadence! Whether it's a bug fix, new feature, or documentation improvement, your help is appreciated. Please follow our [contributing guidelines](CONTRIBUTING.md) to get started.
